@@ -16,6 +16,6 @@ Requirements
 Building and installing app
 ===========================
 
-ant debug
-adb install bin/towerinfo-debug.apk
+1. ant debug
+2. adb install bin/towerinfo-debug.apk
 

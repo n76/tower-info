@@ -56,6 +56,10 @@ public class CellLocationFile {
     public LocationSample getLocation(CellSpec spec) {
         if (spec == null)
             return null;
+        if ((this.file == null) ||
+            (!file.exists()) ||
+            (!file.canRead()))
+            return null;
         assertDatabaseOpen();
 
         // Even simple query on large database is slow, see if this cell is same
@@ -90,7 +94,10 @@ public class CellLocationFile {
     }
 
     public void open() {
-        if (database == null) {
+        if ((this.file != null) &&
+            file.exists() &&
+            file.canRead() &&
+            (database == null)) {
             database = SQLiteDatabase.openDatabase(file.getAbsolutePath(), null, SQLiteDatabase.NO_LOCALIZED_COLLATORS);
         }
     }

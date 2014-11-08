@@ -1,19 +1,25 @@
 package org.fitchfamily.mylocation;
 
 import android.content.Context;
-import android.telephony.TelephonyManager;
 import android.telephony.CellInfo;
-import java.util.List;
 import android.telephony.CellLocation;
 import android.telephony.gsm.GsmCellLocation;
+import android.telephony.NeighboringCellInfo;
+import android.telephony.TelephonyManager;
 import android.util.Log;
+import java.util.List;
 
 class currentCellTower {
     Context mContext;
     private static final String TAG = "myLocation.currentCellTower";
 
+    private List<CellInfo> allCells;
+    private List<NeighboringCellInfo> neighborCells;
+
     public currentCellTower(Context context) {
         mContext = context;
+        allCells = null;
+        neighborCells = null;
     }
 
     public CellSpec getCellSpecs() {
@@ -35,6 +41,12 @@ class currentCellTower {
         int mcc = Integer.parseInt(mncString.substring(0,3));
         int mnc = Integer.parseInt(mncString.substring(3));
 
+        try {
+            allCells = tm.getAllCellInfo();
+        } catch (NoSuchMethodError e) {
+            allCells = null;
+        }
+        neighborCells = tm.getNeighboringCellInfo();
         CellLocation cellLocation = tm.getCellLocation();
         if (cellLocation == null) {
             Log.d(TAG, "cellLocation is NULL.");
@@ -58,7 +70,16 @@ class currentCellTower {
     }
 
     @Override public String toString() {
-        return getCellSpecs().toString();
+        String rslt = "";
+
+        if (allCells != null) {
+            rslt += "getAllCellInfo(): " +allCells.toString() + "\n\n";
+        }
+        if (allCells != null) {
+            rslt += "getNeighboringCellInfo(): " +neighborCells.toString() + "\n\n";
+        }
+        rslt += getCellSpecs().toString();
+        return rslt;
     }
 
 }

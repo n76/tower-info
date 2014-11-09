@@ -1,4 +1,4 @@
-package org.fitchfamily.mylocation;
+package org.fitchfamily.towerinfo;
 
 public interface PropSpec {
     byte[] getIdentBlob();

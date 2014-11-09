@@ -1,4 +1,4 @@
-package org.fitchfamily.mylocation;
+package org.fitchfamily.towerinfo;
 
 import android.content.Context;
 import android.telephony.CellInfo;
@@ -11,7 +11,7 @@ import java.util.List;
 
 class currentCellTower {
     Context mContext;
-    private static final String TAG = "myLocation.currentCellTower";
+    private static final String TAG = "towerInfo.currentCellTower";
 
     private List<CellInfo> allCells;
     private List<NeighboringCellInfo> neighborCells;
@@ -78,7 +78,12 @@ class currentCellTower {
         if (allCells != null) {
             rslt += "getNeighboringCellInfo(): " +neighborCells.toString() + "\n\n";
         }
-        rslt += getCellSpecs().toString();
+        CellSpec curCell = getCellSpecs();
+        if (curCell == null) {
+            rslt += "No current Cell Information\n";
+        } else {
+            rslt += curCell.toString();
+        }
         return rslt;
     }
 

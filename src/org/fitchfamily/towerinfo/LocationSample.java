@@ -1,4 +1,4 @@
-package org.fitchfamily.mylocation;
+package org.fitchfamily.towerinfo;
 
 import java.io.ByteArrayOutputStream;
 

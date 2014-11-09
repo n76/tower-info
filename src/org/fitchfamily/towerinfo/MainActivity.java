@@ -1,4 +1,4 @@
-package org.fitchfamily.mylocation;
+package org.fitchfamily.towerinfo;
 
 import android.app.Activity;
 import android.os.Bundle;

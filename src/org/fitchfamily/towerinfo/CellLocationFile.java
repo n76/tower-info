@@ -13,6 +13,7 @@ public class CellLocationFile {
     private static final String COL_LATITUDE = "latitude";
     private static final String COL_LONGITUDE = "longitude";
     private static final String COL_ACCURACY = "accuracy";
+    private static final String COL_SAMPLES = "samples";
     private static final String COL_MCC = "mcc";
     private static final String COL_MNC = "mnc";
     private static final String COL_LAC = "lac";
@@ -21,7 +22,7 @@ public class CellLocationFile {
     private SQLiteDatabase database;
 
     private CellSpec lastCellSpec = new CellSpec(Radio.GSM, 0, 0, 0, 0);
-    private LocationSample lastLocation = new LocationSample(0, 0, 0);
+    private LocationSample lastLocation = new LocationSample(0, 0, 0, 0);
 
     public CellLocationFile(File file) {
         this.file = file;
@@ -68,8 +69,8 @@ public class CellLocationFile {
             return lastLocation;
         }
         Cursor cursor =
-                database.query(TABLE_CELLS, new String[]{COL_LATITUDE, COL_LONGITUDE, COL_ACCURACY},
-                               BY_SPEC, getBySpecArgs(spec), null, null, null);
+                database.query(TABLE_CELLS, new String[]{COL_LATITUDE, COL_LONGITUDE, COL_ACCURACY, COL_SAMPLES},
+                               BY_SPEC, getBySpecArgs(spec), null, null, null, null);
         if (cursor != null) {
             try {
                 if (cursor.getCount() > 0) {
@@ -77,7 +78,9 @@ public class CellLocationFile {
                         cursor.moveToNext();
                         lastLocation = new LocationSample(cursor.getDouble(cursor.getColumnIndexOrThrow(COL_LATITUDE)),
                                                           cursor.getDouble(cursor.getColumnIndexOrThrow(COL_LONGITUDE)),
-                                                          cursor.getDouble(cursor.getColumnIndexOrThrow(COL_ACCURACY)));
+                                                          cursor.getDouble(cursor.getColumnIndexOrThrow(COL_ACCURACY)),
+                                                          cursor.getInt(cursor.getColumnIndexOrThrow(COL_SAMPLES))
+                                                          );
                         lastCellSpec = spec;
                         return lastLocation;
                     }
